@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/header.ejs') %>
+    <%- include('./partials/styles.ejs') %>
+    <body>
+        <%- include('./partials/navbar.ejs') %>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Filter Pokemons</h2>
+                    <form method="post" action="/">
+                        <div class="mb-3">
+                            <label for="action" class="form-label">Filter by:</label>
+                            <select class="form-select" id="action" name="action">
+                                <option value="clear">All</option>
+                                <option value="search">Name</option>
+                                <option value="filterType">Type</option>
+                                <option value="filterLvl">Level</option>
+                                <option value="filterPrice">Price Range</option>
+                                <option value="filterRegion">Region</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="nameDiv" style="display:none;">
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+                        <div class="mb-3" id="typeDiv" style="display:none;">
+                            <label for="type" class="form-label">Type:</label>
+                            <input type="text" class="form-control" id="type" name="type">
+                        </div>
+                        <div class="mb-3" id="lvlDiv" style="display:none;">
+                            <label for="lvl" class="form-label">Level:</label>
+                            <input type="number" class="form-control" id="lvl" name="lvl">
+                        </div>
+                        <div class="mb-3" id="priceDiv" style="display:none;">
+                            <label for="minPrice" class="form-label">Min Price:</label>
+                            <input type="number" class="form-control" id="minPrice" name="minPrice">
+                            <label for="maxPrice" class="form-label">Max Price:</label>
+                            <input type="number" class="form-control" id="maxPrice" name="maxPrice">
+                        </div>
+                        <div class="mb-3" id="regionDiv" style="display:none;">
+                            <label for="region" class="form-label">Region:</label>
+                            <input type="text" class="form-control" id="region" name="region">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h2>Add Pokemon</h2>
+                    <form method="post" action="/">
+                        <input type="hidden" name="action" value="add">
+                        <div class="mb-3">
+                            <label for="addName" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="addName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addPrice" class="form-label">Price:</label>
+                            <input type="number" class="form-control" id="addPrice" name="price" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addType" class="form-label">Type:</label>
+                            <input type="text" class="form-control" id="addType" name="type" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addLevel" class="form-label">Level:</label>
+                            <input type="number" class="form-control" id="addLevel" name="level" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Add Pokemon</button>
+                    </form>
+                </div>
+            </div>
+            <h2>Pokemon List</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Type</th>
+                        <th>Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% pokemon.forEach(p => { %>
+                    <tr>
+                        <td><%= p.name %></td>
+                        <td><%= p.price %></td>
+                        <td><%= p.type %></td>
+                        <td><%= p.level %></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <script>
+                document.getElementById('action').addEventListener('change', function() {
+                    const action = this.value;
+                    document.getElementById('nameDiv').style.display = action === 'search' ? 'block' : 'none';
+                    document.getElementById('typeDiv').style.display = action === 'filterType' ? 'block' : 'none';
+                    document.getElementById('lvlDiv').style.display = action === 'filterLvl' ? 'block' : 'none';
+                    document.getElementById('priceDiv').style.display = action === 'filterPrice' ? 'block' : 'none';
+                    document.getElementById('regionDiv').style.display = action === 'filterRegion' ? 'block' : 'none';
+                });
+            </script>
+        </div>
+        <%- include('./partials/footer.ejs') %>
+    </body>
+</html>
